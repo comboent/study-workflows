@@ -1,6 +1,14 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  push:
+  workflow_dispatch:  # 支持手动触发
+    inputs:
+      tag_version:
+        description: 'The tag version for the release (e.g., v1.0.0)'
+        required: true
+        type: string
+
 jobs:
   build:
     runs-on: ubuntu-latest
