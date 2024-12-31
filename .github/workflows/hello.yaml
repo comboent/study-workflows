@@ -1,7 +1,6 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Build and Release Spring Boot JAR
+
 on:
-  push:
   workflow_dispatch:  # 支持手动触发
     inputs:
       tag_version:
@@ -20,15 +19,20 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'  # 根据你的项目需求选择合适的 JDK 版本
-          distribution: 'zulu'
+          java-version: '17'  # 使用 JDK 17
+          distribution: 'temurin'
 
-      - name: Build the project
+      - name: Build the project with Maven
         run: ./mvnw clean package  # 使用 Maven Wrapper 构建项目
 
       - name: Get tag version
         id: get_tag
-        run: echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "TAG_VERSION=${{ github.event.inputs.tag_version }}" >> $GITHUB_ENV
+          else
+            echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          fi
 
       - name: Create GitHub Release
         id: create_release
@@ -48,5 +52,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}  # 从创建 Release 的步骤中获取上传 URL
           asset_path: target/*.jar  # 直接上传构建的 JAR 文件
-          asset_name: app-${{ env.TAG_VERSION }}.jar  # 上传后的文件名
+          asset_name: study-workflows-${{ env.TAG_VERSION }}.jar  # 上传后的文件名
           asset_content_type: application/java-archive
