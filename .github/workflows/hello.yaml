@@ -15,6 +15,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  # 赋予 GITHUB_TOKEN 写入权限
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
