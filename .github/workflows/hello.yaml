@@ -60,6 +60,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}  # 从创建 Release 的步骤中获取上传 URL
-          asset_path: target/*.jar  # 直接上传构建的 JAR 文件
+          asset_path: target/app.jar  # 直接上传构建的 JAR 文件
           asset_name: study-workflows-${{ env.TAG_VERSION }}.jar  # 上传后的文件名
           asset_content_type: application/java-archive
