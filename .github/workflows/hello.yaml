@@ -27,7 +27,8 @@ jobs:
           distribution: 'zulu'
       - run: mvn clean package
       - run: mkdir release-files && cp target/*.jar release-files
-      - uses: actions/upload-artifact@v4
+      - uses: Shopify/upload-to-release@v1
         with:
-          name: Package
-          path: release-files
+          name: my-artifact
+          path: release-files/*.jar
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
