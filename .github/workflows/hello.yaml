@@ -24,6 +24,7 @@ jobs:
         with:
           java-version: '17'  # 使用 JDK 17
           distribution: 'zulu'
+          cache: 'maven'
       - run: mvn clean package
       - run: mkdir release-files && cp target/*.jar release-files
       - uses: ncipollo/release-action@v1
