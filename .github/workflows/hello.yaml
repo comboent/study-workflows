@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
-      packages: write
+      contents: write
 
     steps:
       - name: Checkout code
@@ -27,8 +26,8 @@ jobs:
           distribution: 'zulu'
       - run: mvn clean package
       - run: mkdir release-files && cp target/*.jar release-files
-      - uses: Shopify/upload-to-release@v2.0.0
+      - uses: ncipollo/release-action@v1
         with:
-          name: my-artifact
-          path: release-files/*.jar
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "release-files/*.jar"
+          body: "Enjoy!"
+          tag: "${{ github.event.inputs.tag_version }}"
