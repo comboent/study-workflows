@@ -25,6 +25,7 @@ jobs:
         with:
           java-version: '17'  # 使用 JDK 17
           distribution: 'zulu'
+      - run: mvn clean package
       - run: mkdir release-files && cp target/*.jar release-files
       - uses: actions/upload-artifact@v4
         with:
